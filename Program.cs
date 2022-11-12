@@ -41,7 +41,7 @@ app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-    //http://localhost:5003/myhub
+    //https://localhost:7003/myhub
     endpoints.MapHub<MyHub>("/myhub");
 });
 
