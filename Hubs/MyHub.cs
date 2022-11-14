@@ -4,30 +4,33 @@
 
     public class MyHub : Hub
     {
+        private static List<string> clients = new List<string>();
+
         public async Task SendMessageAsync(string message)
         {
             //Ekstra islemler
             await Clients.All.SendAsync("receiveMessage", message);
         }
 
-        #region Overrides of Hub
         //Sisteme bir baglanti yapildigi zaman tetiklenecek
 
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
-            return base.OnConnectedAsync();
+            clients.Add(Context.ConnectionId);
+            await Clients.All.SendAsync("clients", clients);
+            await Clients.All.SendAsync("userJoined",Context.ConnectionId);
+
         }
 
-        #endregion
 
-        #region Overrides of Hub
         //Sistemden bir baglanti koptugunda tetiklenecek
 
-        public override Task OnDisconnectedAsync(Exception? exception)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            return base.OnDisconnectedAsync(exception);
+            clients.Remove(Context.ConnectionId);
+            await Clients.All.SendAsync("clients", clients);
+            await Clients.All.SendAsync("userLeaved", Context.ConnectionId);
         }
 
-        #endregion
     }
 }
