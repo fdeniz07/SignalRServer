@@ -1,4 +1,5 @@
 using SignalRServer.Business;
+using SignalRServer.Hubs;
 using SignalRServerExample.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +47,7 @@ app.UseEndpoints(endpoints =>
 {
     //https://localhost:7003/myhub
     endpoints.MapHub<MyHub>("/myhub");
+    endpoints.MapHub<MessageHub>("/messagehub");
     endpoints.MapControllers();
 });
 
