@@ -42,51 +42,45 @@
             //await Clients.Client(connectionIds.First()).SendAsync("receiveMessage", message);
 
             #endregion
-
             #region Clients
 
             //Server'a bagli olan client'lar arasindan sadece belirtilenlere bildiride bulunur.
             //await Clients.Clients(connectionIds).SendAsync("receiveMessage", message);
 
             #endregion
-
             #region Group
             //Belirtilen gruptaki tüm clientlara bildiride bulunur.
             //Önce gruplar olusturulmali ve ardindan clientlar gruplara abone olmali
 
 
-            #endregion
+            await Clients.Group(groupName).SendAsync("receiveMessage", message);
 
+            #endregion
             #region GroupExcept
 
 
 
             #endregion
-
             #region Groups
 
 
 
             #endregion
-
             #region OthersInGroup
 
 
 
             #endregion
-
             #region User
 
 
 
             #endregion
-
             #region Users
 
 
 
             #endregion
-
             #endregion
 
         }
@@ -97,7 +91,7 @@
             await Clients.Caller.SendAsync("getConnectionId", Context.ConnectionId);
         }
 
-        public async Task addGroup(string connectionId, string groupName)
+        public async Task AddGroup(string connectionId, string groupName)
         {
            await Groups.AddToGroupAsync(connectionId, groupName);
         }
