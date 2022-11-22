@@ -5,7 +5,8 @@
     public class MessageHub : Hub
     {
         // public async Task SendMessageAsync(string message,IEnumerable<string> connectionIds)
-        public async Task SendMessageAsync(string message,string groupName)
+       // public async Task SendMessageAsync(string message,string groupName) --> Group
+        public async Task SendMessageAsync(string message, string groupName,IEnumerable<string> connectionIds)
         {
             #region Caller
 
@@ -53,34 +54,40 @@
             //Önce gruplar olusturulmali ve ardindan clientlar gruplara abone olmali
 
 
-            await Clients.Group(groupName).SendAsync("receiveMessage", message);
+            //await Clients.Group(groupName).SendAsync("receiveMessage", message);
 
             #endregion
             #region GroupExcept
+            //Belirtilen gruptaki, belirtilen clientlar disindaki tüm clientlara mesaj  iletmemizi saglayan bir fonksiyondur.
 
-
+            await Clients.GroupExcept(groupName, connectionIds).SendAsync("receiveMessage", message);
 
             #endregion
+
             #region Groups
 
 
 
             #endregion
+
             #region OthersInGroup
 
 
 
             #endregion
+
             #region User
 
 
 
             #endregion
+
             #region Users
 
 
 
             #endregion
+
             #endregion
 
         }
