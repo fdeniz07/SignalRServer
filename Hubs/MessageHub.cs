@@ -5,8 +5,9 @@
     public class MessageHub : Hub
     {
         // public async Task SendMessageAsync(string message,IEnumerable<string> connectionIds)
-       // public async Task SendMessageAsync(string message,string groupName) --> Group
-        public async Task SendMessageAsync(string message, string groupName,IEnumerable<string> connectionIds)
+        // public async Task SendMessageAsync(string message,string groupName) --> Group
+        //public async Task SendMessageAsync(string message, string groupName,IEnumerable<string> connectionIds) -->GroupExcept
+        public async Task SendMessageAsync(string message, IEnumerable<string> groups)
         {
             #region Caller
 
@@ -60,13 +61,13 @@
             #region GroupExcept
             //Belirtilen gruptaki, belirtilen clientlar disindaki tüm clientlara mesaj  iletmemizi saglayan bir fonksiyondur.
 
-            await Clients.GroupExcept(groupName, connectionIds).SendAsync("receiveMessage", message);
+            //await Clients.GroupExcept(groupName, connectionIds).SendAsync("receiveMessage", message);
 
             #endregion
-
             #region Groups
+            //Birden cok gruptaki, belirtilen clientlara bildiride bulunmamizi saglayan fonksiyondur.
 
-
+            await Clients.Groups(groups).SendAsync("receiveMessage", message);
 
             #endregion
 
